@@ -37,38 +37,49 @@ function playRound (playerSelection, computerSelection)
 }
 
 
-
 // Main game loop for player input and round execution
 
-let playerSelection;
+function game() {
+    let playerScore = 0;
+    let computerScore = 0;
 
-while (true) {
-    playerSelection = prompt("Choose Rock, Paper, or Scissors:");
+    while (playerScore < 3 && computerScore < 3) {
+        // Get player selection from prompt
+        let playerSelection = prompt("Choose Rock, Paper, or Scissors:");
 
-    // Stop safely if the player presses Cancel.
-    if (playerSelection === null) {
-        console.log("Test cancelled.");
-        break;
+        // Cancel safely without changing score
+        if (playerSelection === null) {
+            console.log("Game cancelled.");
+            return;
+        }
+
+        // Get computer selection
+        const computerSelection = computerPlay();
+
+        // Play the round
+        const result = playRound(playerSelection, computerSelection);
+
+        // Update scores based on result
+        if (result.includes("You win!")) {
+            playerScore++;
+            console.log(result);
+        } else if (result.includes("You lose!")) {
+            computerScore++;
+            console.log(result);
+        } else if (result.includes("tie")) {
+            console.log(result);
+        }
+
+        // Display current score
+        console.log(`Score: Player ${playerScore} - Computer ${computerScore}`);
     }
 
-    // Remove unnecessary spaces and ignore capitalization.
-    playerSelection = playerSelection.trim().toLowerCase();
-
-    if (["rock", "paper", "scissors"].includes(playerSelection)) {
-        break;
+    // Announce final winner
+    if (playerScore === 3) {
+        console.log("🎉 You win the game! 🎉");
+    } else if (computerScore === 3) {
+        console.log("💻 Computer wins the game! 💻");
     }
-
-    alert("Invalid choice! Please enter Rock, Paper, or Scissors.");
 }
 
-if (playerSelection !== null) {
-    const computerSelection = computerPlay();
-    const result = playRound(playerSelection, computerSelection);
-
-    console.log("Your choice:", playerSelection);
-    console.log("Computer's choice:", computerSelection);
-    console.log("Round result:", result);
-}
-
-// what i have to write in the commit for all this code :
-// Implemented Rock, Paper, Scissors game with computer play, input validation, and round result display.
+game();
