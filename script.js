@@ -65,6 +65,8 @@ function game() {
 
         // Get player selection
         const playerSelection = prompt(
+            "IMPORTANT: This game uses pop-ups to play, but ALL scores and round results appear in your BROWSER CONSOLE.\n\n" +
+            "If you haven't opened it yet, please press F12 (or Right-click anywhere → Inspect → Click the Console tab).(or Ctrl+Shift+J / Cmd+Option+J) and open the Console tab now!\n\n" +
             "Choose Rock, Paper, or Scissors:\n\n" +
             "Rock beats Scissors\n" +
             "Scissors beats Paper\n" +
