@@ -15,7 +15,7 @@ function playRound(playerSelection, computerSelection) {
 
     // Check for empty or missing input
     if (playerSelection === null || !playerSelection.trim()) {
-        return "Invalid input! Please enter rock, paper, or scissors.";
+        return "Invalid input! Please enter \"rock\", \"paper\", or \"scissors\".";
     }
 
     // Normalize input: remove extra spaces and convert to lowercase
@@ -24,7 +24,7 @@ function playRound(playerSelection, computerSelection) {
 
     // Reject invalid input
     if (!["rock", "paper", "scissors"].includes(player)) {
-        return "Invalid input! Please enter rock, paper, or scissors.";
+        return "Invalid input! Please enter \"rock\", \"paper\", or \"scissors\".";
     }
 
     // Check for a tie
@@ -52,21 +52,21 @@ function game() {
     let playerScore = 0;
     let computerScore = 0;
 
-    console.log("Welcome to Rock, Paper, Scissors!");
-    console.log("Rules:");
-    console.log("- Rock beats Scissors");
-    console.log("- Scissors beats Paper");
-    console.log("- Paper beats Rock");
-    console.log("The first to reach 3 points wins!");
-    console.log("Enter your choice in the prompt.");
+    console.log("Waiting for your input...");
 
     // Continue until one side reaches 3 points
     while (playerScore < 3 && computerScore < 3) {
 
         // Get player selection
         const playerSelection = prompt(
+            "Welcome to Rock, Paper, Scissors!\n" +
+            "Rules:\n" +
+            "- Rock beats Scissors\n" +
+            "- Scissors beats Paper\n" +
+            "- Paper beats Rock\n" +
+            "The first to reach 3 points wins!\n\n" +
             "IMPORTANT: This game uses pop-ups to play, but ALL scores and round results appear in your BROWSER CONSOLE.\n\n" +
-            "If you haven't opened it yet, please press F12 (or Right-click anywhere → Inspect → Click the Console tab).(or Ctrl+Shift+J / Cmd+Option+J) and open the Console tab now!\n\n" +
+            "If you haven't opened it yet, please press F12 and open the Console tab now!\n\n" +
             "Choose Rock, Paper, or Scissors:\n\n" +
             "Rock beats Scissors\n" +
             "Scissors beats Paper\n" +
@@ -121,4 +121,3 @@ function game() {
 
 // Start the game
 game();
-        
