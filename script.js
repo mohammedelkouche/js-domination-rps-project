@@ -8,6 +8,7 @@ function computerPlay() {
     return choices[randomIndex];
 }
 
+
 // Function to play a single round of Rock, Paper, Scissors
 
 function playRound(playerSelection, computerSelection) {
@@ -116,3 +117,7 @@ function game() {
         alert("The computer wins! Better luck next time.");
     }
 }
+
+
+// Start the game
+game();
