@@ -95,6 +95,7 @@ button:disabled {
     margin: 0;
     padding: 12px 16px;
     font-size: 1rem;
+    background: #6adeff;
 }
 
 #results {
