@@ -13,19 +13,9 @@ function computerPlay() {
 
 function playRound(playerSelection, computerSelection) {
 
-    // Check for empty or missing input
-    if (playerSelection === null || !playerSelection.trim()) {
-        return "Invalid input! Please enter \"rock\", \"paper\", or \"scissors\".";
-    }
-
     // Normalize input: remove extra spaces and convert to lowercase
     const player = playerSelection.trim().toLowerCase();
     const computer = computerSelection.trim().toLowerCase();
-
-    // Reject invalid input
-    if (!["rock", "paper", "scissors"].includes(player)) {
-        return "Invalid input! Please enter \"rock\", \"paper\", or \"scissors\".";
-    }
 
     // Check for a tie
     if (player === computer) {
@@ -46,78 +36,81 @@ function playRound(playerSelection, computerSelection) {
 }
 
 
-// Main game loop
+// Main game state
 
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
+let playerScore = 0;
+let computerScore = 0;
+let gameActive = false;
 
-    console.log("Waiting for your input...");
+// Display results in the DOM
 
-    // Continue until one side reaches 3 points
-    while (playerScore < 3 && computerScore < 3) {
-
-        // Get player selection
-        const playerSelection = prompt(
-            "Welcome to Rock, Paper, Scissors!\n" +
-            "Rules:\n" +
-            "- Rock beats Scissors\n" +
-            "- Scissors beats Paper\n" +
-            "- Paper beats Rock\n" +
-            "The first to reach 3 points wins!\n\n" +
-            "IMPORTANT: This game uses pop-ups to play, but ALL scores and round results appear in your BROWSER CONSOLE.\n\n" +
-            "If you haven't opened it yet, please press F12 and open the Console tab now!\n\n" +
-            "Choose Rock, Paper, or Scissors:\n\n" +
-            "Rock beats Scissors\n" +
-            "Scissors beats Paper\n" +
-            "Paper beats Rock\n\n" +
-            `Score: You ${playerScore} - Computer ${computerScore}`
-        );
-
-        // Handle cancellation safely
-        if (playerSelection === null) {
-            console.log("Game cancelled.");
-            return;
-        }
-
-        // Get computer selection
-        const computerSelection = computerPlay();
-
-        // Play one round
-        const result = playRound(playerSelection, computerSelection);
-
-        // Handle invalid input without changing the score
-        if (result.startsWith("Invalid input!")) {
-            console.log(result);
-            continue;
-        }
-
-        // Update scores
-        if (result.startsWith("You win!")) {
-            playerScore++;
-        } else if (result.startsWith("You lose!")) {
-            computerScore++;
-        }
-
-        // Display round result
-        console.log(result);
-
-        // Display current score
-        console.log(
-            `Score: Player ${playerScore} - Computer ${computerScore}`
-        );
-    }
-
-    // Announce the final winner
-    if (playerScore === 3) {
-        console.log("🎉 Congratulations! You win the game! 🎉");
-        alert("Congratulations! You win the game!");
-    } else if (computerScore === 3) {
-        console.log("💻 The computer wins the game! 💻");
-        alert("The computer wins! Better luck next time.");
-    }
+function displayResult(message) {
+    const resultsDiv = document.getElementById("results");
+    const p = document.createElement("p");
+    p.textContent = message;
+    resultsDiv.appendChild(p);
+    resultsDiv.scrollTop = resultsDiv.scrollHeight;
 }
 
+// Update the score display
 
-// Start the game
-game();
+function updateScore() {
+    const scoreDiv = document.getElementById("score");
+    scoreDiv.textContent = `Player: ${playerScore} | Computer: ${computerScore}`;
+}
+
+// Initialize the game
+
+function startGame() {
+    playerScore = 0;
+    computerScore = 0;
+    gameActive = true;
+    
+    const resultsDiv = document.getElementById("results");
+    resultsDiv.innerHTML = "";
+    
+    displayResult("Game started! First to 5 points wins!");
+    updateScore();
+    
+    const buttons = document.querySelectorAll(".choice-button");
+    buttons.forEach(button => {
+        button.disabled = false;
+    });
+}
+
+// Handle button click for player selection
+
+function handlePlayerSelection(playerSelection) {
+    if (!gameActive) return;
+    
+    const computerSelection = computerPlay();
+    const result = playRound(playerSelection, computerSelection);
+    
+    displayResult(result);
+    
+    // Update scores based on result
+    if (result.startsWith("You win!")) {
+        playerScore++;
+    } else if (result.startsWith("You lose!")) {
+        computerScore++;
+    }
+    
+    updateScore();
+    
+    // Check for winner
+    if (playerScore === 5) {
+        displayResult("🎉 Congratulations! You reached 5 points and win the game! 🎉");
+        gameActive = false;
+        const buttons = document.querySelectorAll(".choice-button");
+        buttons.forEach(button => {
+            button.disabled = true;
+        });
+    } else if (computerScore === 5) {
+        displayResult("💻 The computer reached 5 points and wins the game! 💻");
+        gameActive = false;
+        const buttons = document.querySelectorAll(".choice-button");
+        buttons.forEach(button => {
+            button.disabled = true;
+        });
+    }
+}
